@@ -178,3 +178,11 @@ jobs:
         flake8 .
         black --check .
         pytest
+
+
+    - name: Set Up Git LFS
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git-lfs
+        git lfs install
+        git lfs pull
