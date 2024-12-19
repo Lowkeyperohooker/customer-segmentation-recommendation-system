@@ -39,6 +39,7 @@ jobs:
           python scripts/setup_kernels.py
         else
           echo "Kernel setup script not found, skipping this step."
+        fi # Closing the if block properly
       continue-on-error: true # Avoid failure if the script isn't required
 
     # Step 6: Execute Jupyter Notebook
@@ -52,3 +53,4 @@ jobs:
         else
           echo "Notebook $NOTEBOOK_NAME not found!"
           exit 1
+        fi # Closing the if block properly
