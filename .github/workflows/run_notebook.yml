@@ -11,66 +11,44 @@ jobs:
 
     steps:
     # Step 1: Check out the repository
-    # - name: Checkout repository
-    #   uses: actions/checkout@v3
     - name: Checkout Repository
       uses: actions/checkout@v3
 
     # Step 2: Set up Python
-    # - name: Set up Python
-    #   uses: actions/setup-python@v4
-    #   with:
-    #     python-version: '3.8'  # Adjust if a different Python version is required
     - name: Set Up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
-    # Step 3: Install dependencies
-    # - name: Install Dependencies
-    #   run: |
-    #     python -m pip install --upgrade pip
-    #     python install_requirements.py  # Script to install dependencies
+        python-version: '3.9' # Adjust Python version as needed
+
+    # Step 3: Install Dependencies
     - name: Install Required Packages
       run: |
         python -m pip install --upgrade pip
-        python -m pip install jupyter ipykernel
+        python -m pip install jupyter ipykernel papermill
 
-    
+    # Step 4: Debug Python Path
     - name: Debug Python Path
       run: |
         which python
         python --version
 
-
-    # Step 4: Set up Jupyter Kernels
-    - name: Set up Jupyter Kernels
+    # Step 5: Optional Kernel Setup
+    - name: Set up Jupyter Kernels (if applicable)
       run: |
-        python -m pip install jupyter ipykernel
-        python python scripts/setup_kernels.py  # Custom script to set up kernels from kernels.json
-    # - name: Set Up Kernels
-    #   run: python scripts/setup_kernels.py  
-
-    
-
-
-    # Step 5: Install Papermill
-    - name: Install Papermill
-      run: python -m pip install papermill
+        if [ -f scripts/setup_kernels.py ]; then
+          python scripts/setup_kernels.py
+        else
+          echo "Kernel setup script not found, skipping this step."
+      continue-on-error: true # Avoid failure if the script isn't required
 
     # Step 6: Execute Jupyter Notebook
     - name: Execute Notebook
       run: |
-        if [ -f customer-segmentation-recommendation-system.ipynb ]; then
-          papermill customer-segmentation-recommendation-system.ipynb output_notebook.ipynb
+        NOTEBOOK_NAME="customer-segmentation-recommendation-system.ipynb"
+        OUTPUT_NOTEBOOK="output_notebook.ipynb"
+        if [ -f "$NOTEBOOK_NAME" ]; then
+          papermill "$NOTEBOOK_NAME" "$OUTPUT_NOTEBOOK"
+          echo "Notebook executed successfully: $OUTPUT_NOTEBOOK"
         else
-          echo "Notebook not found!"
+          echo "Notebook $NOTEBOOK_NAME not found!"
           exit 1
-# jobs:
-#   setup-environment:
-#     runs-on: ubuntu-latest
-
-#     steps:
-
-
-#       - name: Set Up Kernels
-#         run: python scripts/setup_kernels.py
