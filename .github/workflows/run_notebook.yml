@@ -28,4 +28,15 @@ jobs:
 
     - name: Execute Notebook
       run: |
-        papermill your_notebook.ipynb output_notebook.ipynb
+        if [ -f customer-segmentation-recommendation-system.ipynb ]; then
+          papermill customer-segmentation-recommendation-system.ipynb output_notebook.ipynb
+        else
+          echo "Notebook file not found!"
+          exit 1
+        fi
+
+    - name: Upload Output Notebook
+      uses: actions/upload-artifact@v3
+      with:
+        name: output-notebook
+        path: output_notebook.ipynb
