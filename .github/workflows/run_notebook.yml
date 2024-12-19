@@ -11,26 +11,47 @@ jobs:
 
     steps:
     # Step 1: Check out the repository
-    - name: Checkout repository
+    # - name: Checkout repository
+    #   uses: actions/checkout@v3
+    - name: Checkout Repository
       uses: actions/checkout@v3
 
     # Step 2: Set up Python
-    - name: Set up Python
+    # - name: Set up Python
+    #   uses: actions/setup-python@v4
+    #   with:
+    #     python-version: '3.8'  # Adjust if a different Python version is required
+    - name: Set Up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.8'  # Adjust if a different Python version is required
-
+        python-version: '3.9'
     # Step 3: Install dependencies
-    - name: Install Dependencies
+    # - name: Install Dependencies
+    #   run: |
+    #     python -m pip install --upgrade pip
+    #     python install_requirements.py  # Script to install dependencies
+    - name: Install Required Packages
       run: |
         python -m pip install --upgrade pip
-        python install_requirements.py  # Script to install dependencies
+        python -m pip install jupyter ipykernel
+
+    
+    - name: Debug Python Path
+      run: |
+        which python
+        python --version
+
 
     # Step 4: Set up Jupyter Kernels
     - name: Set up Jupyter Kernels
       run: |
         python -m pip install jupyter ipykernel
         python python scripts/setup_kernels.py  # Custom script to set up kernels from kernels.json
+    # - name: Set Up Kernels
+    #   run: python scripts/setup_kernels.py  
+
+    
+
 
     # Step 5: Install Papermill
     - name: Install Papermill
@@ -44,3 +65,12 @@ jobs:
         else
           echo "Notebook not found!"
           exit 1
+# jobs:
+#   setup-environment:
+#     runs-on: ubuntu-latest
+
+#     steps:
+
+
+#       - name: Set Up Kernels
+#         run: python scripts/setup_kernels.py
