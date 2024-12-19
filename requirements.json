@@ -11,6 +11,7 @@
     "tabulate": ">=0.8.9",
     "jupyter": ">=1.0.0",
     "ipykernel": ">=6.5.0",
+    "papermill": ">=2.4.0",
     "git-lfs": ">=3.0.0"
   },
   "devDependencies": {
