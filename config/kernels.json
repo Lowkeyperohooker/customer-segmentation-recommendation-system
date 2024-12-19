@@ -3,44 +3,45 @@
     {
       "name": "python3",
       "type": "system",
-      "description": "Default Python kernel (uses the system-installed Python environment).",
+      "description": "Default Python kernel using the system-installed Python environment.",
       "installation_steps": [
-        "pip install jupyter",
+        "python -m pip install --upgrade pip",
+        "python -m pip install jupyter ipykernel",
         "python -m ipykernel install --user --name=python3 --display-name 'Python 3'"
       ],
       "notes": "Ensure Python and pip are installed on your system.",
       "select_kernel_command": "Go to Kernel -> Change Kernel -> Select 'Python 3'."
     },
     {
-      "name": "my_virtualenv",
+      "name": "project_env",
       "type": "virtualenv",
-      "description": "Custom Python virtual environment kernel for project isolation.",
+      "description": "Project-specific Python virtual environment for dependency isolation.",
       "installation_steps": [
-        "python -m venv myenv",
+        "python -m venv project_env",
         {
-          "linux_mac": "source myenv/bin/activate",
-          "windows": "myenv\\Scripts\\activate"
+          "linux_mac": "source project_env/bin/activate",
+          "windows": "project_env\\Scripts\\activate"
         },
-        "pip install jupyter",
-        "pip install ipykernel",
-        "python -m ipykernel install --user --name=my_virtualenv --display-name 'My Virtualenv'"
+        "python -m pip install --upgrade pip",
+        "python -m pip install jupyter ipykernel",
+        "python -m ipykernel install --user --name=project_env --display-name 'Project Env'"
       ],
-      "notes": "This setup isolates project dependencies from the system Python.",
-      "select_kernel_command": "Go to Kernel -> Change Kernel -> Select 'My Virtualenv'."
+      "notes": "This kernel ensures dependencies are isolated for the project.",
+      "select_kernel_command": "Go to Kernel -> Change Kernel -> Select 'Project Env'."
     },
     {
-      "name": "conda_environment",
+      "name": "conda_env",
       "type": "conda",
-      "description": "Conda-based environment kernel for Anaconda/Miniconda users.",
+      "description": "Conda environment for users with Anaconda/Miniconda.",
       "installation_steps": [
-        "conda create --name myenv python=3.9",
-        "conda activate myenv",
-        "pip install jupyter",
-        "pip install ipykernel",
-        "python -m ipykernel install --user --name=my_conda_env --display-name 'My Conda Env'"
+        "conda create --name conda_env python=3.9 -y",
+        "conda activate conda_env",
+        "python -m pip install --upgrade pip",
+        "python -m pip install jupyter ipykernel",
+        "python -m ipykernel install --user --name=conda_env --display-name 'Conda Env'"
       ],
       "notes": "Requires Anaconda or Miniconda to be installed.",
-      "select_kernel_command": "Go to Kernel -> Change Kernel -> Select 'My Conda Env'."
+      "select_kernel_command": "Go to Kernel -> Change Kernel -> Select 'Conda Env'."
     }
   ]
 }

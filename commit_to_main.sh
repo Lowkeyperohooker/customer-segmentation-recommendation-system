@@ -41,3 +41,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Changes successfully pushed to the 'main' branch!"
+
+# copy paste to terminal to execute
+# chmod +x commit_to_main.sh
+# ./commit_to_main.sh

@@ -10,33 +10,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Step 1: Check out the repository
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    # Step 2: Set up Python
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.8'  # Adjust if a different Python version is required
 
+    # Step 3: Install dependencies
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        python install_requirements.py  # Runs your script to install dependencies
+        python install_requirements.py  # Script to install dependencies
 
-    - name: Install Jupyter and Papermill
-      run: python -m pip install jupyter papermill
+    # Step 4: Set up Jupyter Kernels
+    - name: Set up Jupyter Kernels
+      run: |
+        python -m pip install jupyter ipykernel
+        python setup_kernels.py  # Custom script to set up kernels from kernels.json
 
+    # Step 5: Install Papermill
+    - name: Install Papermill
+      run: python -m pip install papermill
+
+    # Step 6: Execute Jupyter Notebook
     - name: Execute Notebook
       run: |
         if [ -f customer-segmentation-recommendation-system.ipynb ]; then
           papermill customer-segmentation-recommendation-system.ipynb output_notebook.ipynb
         else
-          echo "Notebook file not found!"
+          echo "Notebook not found!"
           exit 1
-        fi
-
-    - name: Upload Output Notebook
-      uses: actions/upload-artifact@v3
-      with:
-        name: output-notebook
-        path: output_notebook.ipynb
