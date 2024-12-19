@@ -30,7 +30,7 @@ jobs:
     - name: Set up Jupyter Kernels
       run: |
         python -m pip install jupyter ipykernel
-        python setup_kernels.py  # Custom script to set up kernels from kernels.json
+        python python scripts/setup_kernels.py  # Custom script to set up kernels from kernels.json
 
     # Step 5: Install Papermill
     - name: Install Papermill
